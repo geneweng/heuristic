@@ -17,7 +17,7 @@ author = "human:gene"
 
 def applies(txn: Transaction, ctx: EntityContext) -> bool:
     return (
-        ctx.card_txn_count_60s >= 5
+        ctx.card_txn_count_60s >= 4
         and ctx.card_min_amount_60s is not None
         and ctx.card_min_amount_60s < Decimal("5.00")
     )

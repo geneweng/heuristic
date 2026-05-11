@@ -1,0 +1,9 @@
+# Per-scheme recall floors. A PR that drops any of these below its floor fails CI.
+# Set just below current recall — tight enough to catch regressions, loose enough
+# to tolerate fixture-size noise. Revise upward as the replay set grows (#2).
+
+card_testing_burst_v1: 0.5
+geo_country_jump_v1: 0.5
+decline_then_approve_v1: 0.5
+new_device_aged_card_high_value_v1: 0.5
+device_shared_across_cards_v1: 0.5

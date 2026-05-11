@@ -22,8 +22,9 @@ def test_classic_burst_fires(make_txn):
 
 
 def test_minimum_burst_fires(make_txn):
+    # 4 prior + current = 5 in the 60s window
     txn = make_txn(amount="2.00")
-    ctx = _ctx(card_txn_count_60s=5, card_min_amount_60s=Decimal("2.00"))
+    ctx = _ctx(card_txn_count_60s=4, card_min_amount_60s=Decimal("2.00"))
     assert applies(txn, ctx) is True
 
 
@@ -37,7 +38,7 @@ def test_burst_with_mixed_amounts_fires_on_low_min(make_txn):
 
 def test_below_count_threshold_does_not_fire(make_txn):
     txn = make_txn()
-    ctx = _ctx(card_txn_count_60s=4, card_min_amount_60s=Decimal("0.50"))
+    ctx = _ctx(card_txn_count_60s=3, card_min_amount_60s=Decimal("0.50"))
     assert applies(txn, ctx) is False
 
 

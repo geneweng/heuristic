@@ -8,9 +8,10 @@ def test_metadata():
 
 # --- positives ---
 
-def test_six_cards_on_device_fires(make_txn):
+def test_five_prior_cards_fires(make_txn):
+    # 5 prior + current = 6 distinct cards on the device
     txn = make_txn()
-    ctx = EntityContext(device_distinct_cards_lifetime=6)
+    ctx = EntityContext(device_distinct_cards_lifetime=5)
     assert applies(txn, ctx) is True
 
 
@@ -20,17 +21,17 @@ def test_many_cards_on_device_fires(make_txn):
     assert applies(txn, ctx) is True
 
 
-def test_ring_size_seven_fires(make_txn):
+def test_six_prior_cards_fires(make_txn):
     txn = make_txn()
-    ctx = EntityContext(device_distinct_cards_lifetime=7)
+    ctx = EntityContext(device_distinct_cards_lifetime=6)
     assert applies(txn, ctx) is True
 
 
 # --- negatives ---
 
-def test_at_threshold_does_not_fire(make_txn):
+def test_below_threshold_does_not_fire(make_txn):
     txn = make_txn()
-    ctx = EntityContext(device_distinct_cards_lifetime=5)
+    ctx = EntityContext(device_distinct_cards_lifetime=4)
     assert applies(txn, ctx) is False
 
 

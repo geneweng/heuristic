@@ -13,4 +13,4 @@ author = "human:gene"
 
 
 def applies(txn: Transaction, ctx: EntityContext) -> bool:
-    return ctx.device_distinct_cards_lifetime > 5
+    return ctx.device_distinct_cards_lifetime >= 5

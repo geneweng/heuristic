@@ -16,3 +16,31 @@ jobs:
           cache: pip
       - run: python -m pip install -e ".[dev]"
       - run: pytest -q
+
+  replay:
+    # Gate any change to rules or the ML stub on the replay floors. This is the HL
+    # anti-forgetting check; a rule that drops scheme recall below its floor fails CI.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            relevant:
+              - 'skills/fraud-rules/**'
+              - 'skills/fraud-ml/**'
+              - 'skills/fraud-replay/**'
+              - 'skills/common/**'
+              - 'data/replay/**'
+      - if: steps.changes.outputs.relevant == 'true' || github.event_name == 'push'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - if: steps.changes.outputs.relevant == 'true' || github.event_name == 'push'
+        run: python -m pip install -e ".[dev]"
+      - if: steps.changes.outputs.relevant == 'true' || github.event_name == 'push'
+        run: make replay PYTHON=python

@@ -1,7 +1,11 @@
-.PHONY: install test lint replay reflect stream clean
+.PHONY: install test lint replay reflect stream fixture clean
+
+PYTHON ?= python3
+PYTHONPATH := skills/common:skills/fraud-ml:skills/fraud-rules:skills/fraud-replay:skills/fraud-reflector
+export PYTHONPATH
 
 install:
-	python -m pip install -e ".[dev,ml,ui]"
+	$(PYTHON) -m pip install -e ".[dev]"
 
 test:
 	pytest -q
@@ -9,14 +13,17 @@ test:
 lint:
 	ruff check .
 
-replay:
-	python -m replay
+fixture:
+	$(PYTHON) data/replay/build_fixture.py
+
+replay: fixture
+	$(PYTHON) -m replay
 
 reflect:
-	python -m reflector
+	$(PYTHON) -m reflector
 
 stream:
-	python -m orchestrator
+	$(PYTHON) -m orchestrator
 
 clean:
-	rm -rf .pytest_cache .ruff_cache **/__pycache__
+	rm -rf .pytest_cache .ruff_cache results/replay_report.* **/__pycache__
