@@ -1,0 +1,43 @@
+[project]
+name = "heuristic-fraud-poc"
+version = "0.0.1"
+description = "Heuristic Learning POC for fraud detection"
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.6",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.4",
+]
+ml = [
+    "xgboost>=2.0",
+    "pandas>=2.2",
+    "scikit-learn>=1.4",
+    "numpy>=1.26",
+]
+ui = [
+    "streamlit>=1.32",
+]
+
+[tool.pytest.ini_options]
+testpaths = [
+    "skills/common/tests",
+    "skills/fraud-ml/tests",
+    "skills/fraud-rules/tests",
+    "skills/fraud-replay/tests",
+    "skills/fraud-reflector/tests",
+]
+pythonpath = [
+    "skills/common",
+    "skills/fraud-ml",
+    "skills/fraud-rules",
+    "skills/fraud-replay",
+    "skills/fraud-reflector",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
