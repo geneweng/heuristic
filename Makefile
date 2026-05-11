@@ -1,7 +1,7 @@
 .PHONY: install test lint replay reflect stream fixture clean
 
 PYTHON ?= python3
-PYTHONPATH := skills/common:skills/fraud-ml:skills/fraud-rules:skills/fraud-replay:skills/fraud-reflector
+PYTHONPATH := skills/common:skills/fraud-ml:skills/fraud-rules:skills/fraud-replay:skills/fraud-reflector:skills/orchestrator
 export PYTHONPATH
 
 install:

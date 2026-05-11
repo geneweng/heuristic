@@ -29,6 +29,7 @@ testpaths = [
     "skills/fraud-rules/tests",
     "skills/fraud-replay/tests",
     "skills/fraud-reflector/tests",
+    "skills/orchestrator/tests",
 ]
 pythonpath = [
     "skills/common",
@@ -36,6 +37,7 @@ pythonpath = [
     "skills/fraud-rules",
     "skills/fraud-replay",
     "skills/fraud-reflector",
+    "skills/orchestrator",
 ]
 
 [tool.ruff]

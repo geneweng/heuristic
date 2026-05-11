@@ -11,7 +11,7 @@ build/
 
 data/raw/
 data/splits/
-runs/
+runs/*.jsonl
 labels/
 memory/attempts.jsonl
 memory/rejections.jsonl
