@@ -1,0 +1,8 @@
+# Anti-overfitting guard thresholds. Loaded by the reflector before validating
+# a proposal. Tune upward as the holdout set grows (#2); the values below are
+# the production targets from #15.
+
+holdout_precision: 0.85
+holdout_support: 10
+fp_cap_ratio: 0.001          # 0.1% of legit traffic
+redundancy_max_overlap: 0.7  # 70%
