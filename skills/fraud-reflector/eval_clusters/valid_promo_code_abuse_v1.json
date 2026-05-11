@@ -1,0 +1,43 @@
+{
+  "cluster_id": "valid_promo_code_abuse_v1",
+  "analyst_summary": "Single device cycling through new accounts to redeem the SUMMER25 promo repeatedly. Each account is fresh (card_age_days low), the device fingerprint reuses across all accounts, and the merchant_category is consistent (apparel-discount).",
+  "expected_scheme_name": "promo_code_burst_v1",
+  "fn_records": [
+    {
+      "txn_id": "fn_pc_001",
+      "txn": {"amount": "29.99", "currency": "USD", "merchant_id": "m_apparel_a", "merchant_category": "apparel-discount", "card_id": "c_alpha_01", "device_id": "d_shared_xyz", "ip": "203.0.113.5", "country": "US", "approved": true},
+      "ctx": {"card_age_days": 1, "card_distinct_devices_lifetime": 1, "device_distinct_cards_lifetime": 2, "card_txn_count_24h": 1},
+      "analyst_note": "Account opened today, immediate promo redemption"
+    },
+    {
+      "txn_id": "fn_pc_002",
+      "txn": {"amount": "29.99", "currency": "USD", "merchant_id": "m_apparel_a", "merchant_category": "apparel-discount", "card_id": "c_alpha_02", "device_id": "d_shared_xyz", "ip": "203.0.113.5", "country": "US", "approved": true},
+      "ctx": {"card_age_days": 0, "card_distinct_devices_lifetime": 1, "device_distinct_cards_lifetime": 3, "card_txn_count_24h": 1},
+      "analyst_note": "Same device as fn_pc_001, different fresh card"
+    },
+    {
+      "txn_id": "fn_pc_003",
+      "txn": {"amount": "29.99", "currency": "USD", "merchant_id": "m_apparel_b", "merchant_category": "apparel-discount", "card_id": "c_alpha_03", "device_id": "d_shared_xyz", "ip": "203.0.113.6", "country": "US", "approved": true},
+      "ctx": {"card_age_days": 2, "card_distinct_devices_lifetime": 1, "device_distinct_cards_lifetime": 4, "card_txn_count_24h": 1},
+      "analyst_note": "Different merchant, same device, same pattern"
+    },
+    {
+      "txn_id": "fn_pc_004",
+      "txn": {"amount": "31.50", "currency": "USD", "merchant_id": "m_apparel_a", "merchant_category": "apparel-discount", "card_id": "c_alpha_04", "device_id": "d_shared_xyz", "ip": "203.0.113.5", "country": "US", "approved": true},
+      "ctx": {"card_age_days": 0, "card_distinct_devices_lifetime": 1, "device_distinct_cards_lifetime": 5, "card_txn_count_24h": 1},
+      "analyst_note": "Slightly different amount but same scheme"
+    },
+    {
+      "txn_id": "fn_pc_005",
+      "txn": {"amount": "29.99", "currency": "USD", "merchant_id": "m_apparel_c", "merchant_category": "apparel-discount", "card_id": "c_alpha_05", "device_id": "d_shared_xyz", "ip": "203.0.113.7", "country": "US", "approved": true},
+      "ctx": {"card_age_days": 1, "card_distinct_devices_lifetime": 1, "device_distinct_cards_lifetime": 6, "card_txn_count_24h": 1},
+      "analyst_note": "Now firing device_shared_across_cards but for promo abuse, not card ring"
+    },
+    {
+      "txn_id": "fn_pc_006",
+      "txn": {"amount": "29.99", "currency": "USD", "merchant_id": "m_apparel_b", "merchant_category": "apparel-discount", "card_id": "c_alpha_06", "device_id": "d_shared_xyz", "ip": "203.0.113.5", "country": "US", "approved": true},
+      "ctx": {"card_age_days": 0, "card_distinct_devices_lifetime": 1, "device_distinct_cards_lifetime": 7, "card_txn_count_24h": 1},
+      "analyst_note": "Still going"
+    }
+  ]
+}

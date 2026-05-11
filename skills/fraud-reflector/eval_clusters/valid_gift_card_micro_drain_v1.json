@@ -1,0 +1,43 @@
+{
+  "cluster_id": "valid_gift_card_micro_drain_v1",
+  "analyst_summary": "Stolen card numbers being drained through small gift-card loads at varied merchants. Amounts cluster just under common decline thresholds; merchant_category is consistently 'prepaid-card' or 'gift-card'; cards are mid-aged (not new, not aged).",
+  "expected_scheme_name": "gift_card_micro_drain_v1",
+  "fn_records": [
+    {
+      "txn_id": "fn_gc_001",
+      "txn": {"amount": "24.95", "currency": "USD", "merchant_id": "m_gc_alpha", "merchant_category": "gift-card", "card_id": "c_beta_01", "device_id": "d_b_01", "ip": "198.51.100.21", "country": "US", "approved": true},
+      "ctx": {"card_age_days": 180, "card_txn_count_24h": 4, "card_distinct_merchants_24h": 4, "card_amount_24h": "99.80"},
+      "analyst_note": "4 prior gift-card loads same day, each just under $25"
+    },
+    {
+      "txn_id": "fn_gc_002",
+      "txn": {"amount": "24.50", "currency": "USD", "merchant_id": "m_gc_beta", "merchant_category": "gift-card", "card_id": "c_beta_02", "device_id": "d_b_02", "ip": "198.51.100.22", "country": "US", "approved": true},
+      "ctx": {"card_age_days": 240, "card_txn_count_24h": 5, "card_distinct_merchants_24h": 5, "card_amount_24h": "122.45"},
+      "analyst_note": "Different stolen card, same pattern, different device"
+    },
+    {
+      "txn_id": "fn_gc_003",
+      "txn": {"amount": "19.99", "currency": "USD", "merchant_id": "m_pp_a", "merchant_category": "prepaid-card", "card_id": "c_beta_03", "device_id": "d_b_03", "ip": "198.51.100.23", "country": "US", "approved": true},
+      "ctx": {"card_age_days": 150, "card_txn_count_24h": 6, "card_distinct_merchants_24h": 6, "card_amount_24h": "119.94"},
+      "analyst_note": "Switched to prepaid category, same drain shape"
+    },
+    {
+      "txn_id": "fn_gc_004",
+      "txn": {"amount": "24.99", "currency": "USD", "merchant_id": "m_gc_gamma", "merchant_category": "gift-card", "card_id": "c_beta_04", "device_id": "d_b_04", "ip": "198.51.100.24", "country": "US", "approved": true},
+      "ctx": {"card_age_days": 200, "card_txn_count_24h": 5, "card_distinct_merchants_24h": 5, "card_amount_24h": "124.95"},
+      "analyst_note": "Yet another stolen card"
+    },
+    {
+      "txn_id": "fn_gc_005",
+      "txn": {"amount": "22.00", "currency": "USD", "merchant_id": "m_gc_delta", "merchant_category": "gift-card", "card_id": "c_beta_05", "device_id": "d_b_05", "ip": "198.51.100.25", "country": "US", "approved": true},
+      "ctx": {"card_age_days": 300, "card_txn_count_24h": 4, "card_distinct_merchants_24h": 4, "card_amount_24h": "88.00"},
+      "analyst_note": "Aged card but the daily-load pattern is the tell"
+    },
+    {
+      "txn_id": "fn_gc_006",
+      "txn": {"amount": "24.50", "currency": "USD", "merchant_id": "m_pp_b", "merchant_category": "prepaid-card", "card_id": "c_beta_06", "device_id": "d_b_06", "ip": "198.51.100.26", "country": "US", "approved": true},
+      "ctx": {"card_age_days": 220, "card_txn_count_24h": 5, "card_distinct_merchants_24h": 5, "card_amount_24h": "122.50"},
+      "analyst_note": "5+ distinct gift/prepaid merchants in 24h is the signature"
+    }
+  ]
+}

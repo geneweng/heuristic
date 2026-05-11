@@ -1,0 +1,44 @@
+{
+  "cluster_id": "adversarial_single_customer",
+  "analyst_summary": "All 6 FNs are on a single card_id. This is one bad customer, not a generalizable scheme. The validator must reject.",
+  "expected_scheme_name": null,
+  "metadata": {"should_reject": true, "reason": "single card"},
+  "fn_records": [
+    {
+      "txn_id": "fn_sc_001",
+      "txn": {"amount": "55.00", "currency": "USD", "merchant_id": "m_a", "merchant_category": "retail", "card_id": "c_one_bad_actor", "device_id": "d_1", "ip": "1.1.1.1", "country": "US", "approved": true},
+      "ctx": {},
+      "analyst_note": "Repeat offender"
+    },
+    {
+      "txn_id": "fn_sc_002",
+      "txn": {"amount": "65.00", "currency": "USD", "merchant_id": "m_b", "merchant_category": "retail", "card_id": "c_one_bad_actor", "device_id": "d_2", "ip": "1.1.1.2", "country": "US", "approved": true},
+      "ctx": {},
+      "analyst_note": "Same card"
+    },
+    {
+      "txn_id": "fn_sc_003",
+      "txn": {"amount": "45.00", "currency": "USD", "merchant_id": "m_c", "merchant_category": "retail", "card_id": "c_one_bad_actor", "device_id": "d_3", "ip": "1.1.1.3", "country": "US", "approved": true},
+      "ctx": {},
+      "analyst_note": "Still the same card"
+    },
+    {
+      "txn_id": "fn_sc_004",
+      "txn": {"amount": "80.00", "currency": "USD", "merchant_id": "m_d", "merchant_category": "retail", "card_id": "c_one_bad_actor", "device_id": "d_4", "ip": "1.1.1.4", "country": "US", "approved": true},
+      "ctx": {},
+      "analyst_note": "Same"
+    },
+    {
+      "txn_id": "fn_sc_005",
+      "txn": {"amount": "92.00", "currency": "USD", "merchant_id": "m_e", "merchant_category": "retail", "card_id": "c_one_bad_actor", "device_id": "d_5", "ip": "1.1.1.5", "country": "US", "approved": true},
+      "ctx": {},
+      "analyst_note": "Same"
+    },
+    {
+      "txn_id": "fn_sc_006",
+      "txn": {"amount": "120.00", "currency": "USD", "merchant_id": "m_f", "merchant_category": "retail", "card_id": "c_one_bad_actor", "device_id": "d_6", "ip": "1.1.1.6", "country": "US", "approved": true},
+      "ctx": {},
+      "analyst_note": "One actor, not a scheme"
+    }
+  ]
+}

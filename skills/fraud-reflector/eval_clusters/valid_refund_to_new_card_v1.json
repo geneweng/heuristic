@@ -1,0 +1,37 @@
+{
+  "cluster_id": "valid_refund_to_new_card_v1",
+  "analyst_summary": "Refund fraud: original purchase on one card, refund redirected to a freshly-added card on the same device. The new card has card_age_days near zero and the device has high device_distinct_cards_lifetime. Approved txns; amount close to a recent prior purchase on the device.",
+  "expected_scheme_name": "refund_redirect_new_card_v1",
+  "fn_records": [
+    {
+      "txn_id": "fn_rf_001",
+      "txn": {"amount": "189.00", "currency": "USD", "merchant_id": "m_retail_a", "merchant_category": "retail-electronics", "card_id": "c_new_01", "device_id": "d_old_01", "ip": "192.0.2.10", "country": "US", "approved": true},
+      "ctx": {"card_age_days": 0, "device_distinct_cards_lifetime": 3, "current_device_seen_before_for_card": false, "card_txn_count_24h": 0},
+      "analyst_note": "Brand-new card, on a device that has seen 3 cards prior"
+    },
+    {
+      "txn_id": "fn_rf_002",
+      "txn": {"amount": "245.50", "currency": "USD", "merchant_id": "m_retail_b", "merchant_category": "retail-apparel", "card_id": "c_new_02", "device_id": "d_old_02", "ip": "192.0.2.11", "country": "US", "approved": true},
+      "ctx": {"card_age_days": 0, "device_distinct_cards_lifetime": 4, "current_device_seen_before_for_card": false, "card_txn_count_24h": 0},
+      "analyst_note": "Same shape, different actors"
+    },
+    {
+      "txn_id": "fn_rf_003",
+      "txn": {"amount": "99.00", "currency": "USD", "merchant_id": "m_retail_c", "merchant_category": "retail-electronics", "card_id": "c_new_03", "device_id": "d_old_03", "ip": "192.0.2.12", "country": "US", "approved": true},
+      "ctx": {"card_age_days": 1, "device_distinct_cards_lifetime": 5, "current_device_seen_before_for_card": false, "card_txn_count_24h": 0},
+      "analyst_note": "New card on a busy-ish device"
+    },
+    {
+      "txn_id": "fn_rf_004",
+      "txn": {"amount": "320.00", "currency": "USD", "merchant_id": "m_retail_d", "merchant_category": "retail-electronics", "card_id": "c_new_04", "device_id": "d_old_04", "ip": "192.0.2.13", "country": "US", "approved": true},
+      "ctx": {"card_age_days": 0, "device_distinct_cards_lifetime": 6, "current_device_seen_before_for_card": false, "card_txn_count_24h": 0},
+      "analyst_note": "Just barely under the rule_shared_device threshold's intent"
+    },
+    {
+      "txn_id": "fn_rf_005",
+      "txn": {"amount": "150.00", "currency": "USD", "merchant_id": "m_retail_e", "merchant_category": "retail-apparel", "card_id": "c_new_05", "device_id": "d_old_05", "ip": "192.0.2.14", "country": "US", "approved": true},
+      "ctx": {"card_age_days": 0, "device_distinct_cards_lifetime": 3, "current_device_seen_before_for_card": false, "card_txn_count_24h": 0},
+      "analyst_note": "Approved refund processed to this card"
+    }
+  ]
+}

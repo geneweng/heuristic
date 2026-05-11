@@ -1,0 +1,26 @@
+{
+  "cluster_id": "adversarial_too_few",
+  "analyst_summary": "Only 3 FNs — should be rejected by the validator as premature evidence.",
+  "expected_scheme_name": null,
+  "metadata": {"should_reject": true, "reason": "too few FNs"},
+  "fn_records": [
+    {
+      "txn_id": "fn_few_001",
+      "txn": {"amount": "12.00", "currency": "USD", "merchant_id": "m_a", "merchant_category": "grocery", "card_id": "c_a", "device_id": "d_a", "ip": "1.2.3.4", "country": "US", "approved": true},
+      "ctx": {},
+      "analyst_note": "Looks like fraud"
+    },
+    {
+      "txn_id": "fn_few_002",
+      "txn": {"amount": "13.00", "currency": "USD", "merchant_id": "m_b", "merchant_category": "grocery", "card_id": "c_b", "device_id": "d_b", "ip": "1.2.3.5", "country": "US", "approved": true},
+      "ctx": {},
+      "analyst_note": "Same idea"
+    },
+    {
+      "txn_id": "fn_few_003",
+      "txn": {"amount": "11.00", "currency": "USD", "merchant_id": "m_c", "merchant_category": "grocery", "card_id": "c_c", "device_id": "d_c", "ip": "1.2.3.6", "country": "US", "approved": true},
+      "ctx": {},
+      "analyst_note": "Same again"
+    }
+  ]
+}
