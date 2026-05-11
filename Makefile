@@ -19,7 +19,10 @@ fixture:
 replay: fixture
 	$(PYTHON) -m replay
 
-reflect:
+reflect-fixture:
+	$(PYTHON) data/reflect/build_fixture.py
+
+reflect: reflect-fixture
 	$(PYTHON) -m reflector
 
 stream:
