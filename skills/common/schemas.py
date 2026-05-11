@@ -49,6 +49,19 @@ class EntityContext(BaseModel):
         default=0, description="Declined auths in the last hour on this card."
     )
     card_age_days: int = Field(default=0, description="Days since first-seen for this card.")
+    card_txn_count_60s: int = Field(
+        default=0, description="Card auth attempts in the last 60 seconds (card-testing signal)."
+    )
+    card_min_amount_60s: Decimal | None = Field(
+        default=None, description="Smallest auth amount in the last 60s on this card; None if no prior."
+    )
+    current_device_seen_before_for_card: bool = Field(
+        default=False,
+        description="True if the current txn's device_id appears in the card's prior history.",
+    )
+    prev_country: str | None = Field(
+        default=None, description="Country of the previous auth on this card; None if first-seen."
+    )
     device_distinct_cards_lifetime: int = Field(
         default=0, description="Distinct card_ids ever seen on this device."
     )
@@ -65,6 +78,7 @@ def build_context(history: list[Transaction], current: Transaction) -> EntityCon
     same_device = [t for t in history if t.device_id == current.device_id]
 
     in_24h = [t for t in same_card if (current.ts - t.ts).total_seconds() <= 86400]
+    in_60s = [t for t in same_card if (current.ts - t.ts).total_seconds() <= 60]
     in_1h_declined = [
         t
         for t in same_card
@@ -84,5 +98,9 @@ def build_context(history: list[Transaction], current: Transaction) -> EntityCon
         card_seconds_since_last_txn=int((current.ts - prev.ts).total_seconds()) if prev else None,
         card_decline_count_1h=len(in_1h_declined),
         card_age_days=age_days,
+        card_txn_count_60s=len(in_60s),
+        card_min_amount_60s=min((t.amount for t in in_60s), default=None),
+        current_device_seen_before_for_card=any(t.device_id == current.device_id for t in same_card),
+        prev_country=prev.country if prev else None,
         device_distinct_cards_lifetime=len({t.card_id for t in same_device}),
     )
