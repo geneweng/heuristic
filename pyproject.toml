@@ -21,6 +21,12 @@ ml = [
 ui = [
     "streamlit>=1.32",
 ]
+results = [
+    "matplotlib>=3.8",
+]
+reflector = [
+    "anthropic>=0.34",
+]
 
 [tool.pytest.ini_options]
 testpaths = [
@@ -30,14 +36,18 @@ testpaths = [
     "skills/fraud-replay/tests",
     "skills/fraud-reflector/tests",
     "skills/orchestrator/tests",
+    "data/injectors/tests",
+    "results/tests",
 ]
 pythonpath = [
+    ".",
     "skills/common",
     "skills/fraud-ml",
     "skills/fraud-rules",
     "skills/fraud-replay",
     "skills/fraud-reflector",
     "skills/orchestrator",
+    "results",
 ]
 
 [tool.ruff]
