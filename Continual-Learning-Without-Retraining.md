@@ -1,7 +1,8 @@
-# When Rules Beat Retraining
+# Continual Learning Without Retraining
 
-*Applying Heuristic Learning to fraud detection — a working argument for why
-the next paradigm in operational ML might not involve more gradients.*
+*Applying Heuristic Learning to fraud detection — an applied report on what
+holds and what doesn't when the update mechanism is a coding agent instead
+of a gradient step.*
 
 ---
 
@@ -231,7 +232,8 @@ shipping diffs that ML systems would take weeks to ship through retraining.
 That's worth a lot, but it's not magic. The novel observation from
 working on this POC is that *the LLM coding agent doesn't have to be the
 brain of the system to be load-bearing*. It can be the diff-writer, the
-analyst extender, the rule rotator. The brain stays the GBM.
+analyst extender, the rule rotator. The brain stays the gradient-boosted
+classifier.
 
 That's an architecture I'd actually deploy.
 
@@ -245,7 +247,7 @@ git clone https://github.com/geneweng/heuristic
 cd heuristic
 make install            # editable install
 make data               # 100k synthetic IEEE-CIS-shape txns, deterministic
-make ml-train           # train the frozen GBM
+make ml-train           # train the frozen gradient-boosted classifier
 make results            # 14-day simulation; writes the headline chart
 make ui                 # Streamlit analyst UI on localhost:8501
 ```
