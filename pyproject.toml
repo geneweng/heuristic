@@ -36,6 +36,7 @@ testpaths = [
     "skills/fraud-replay/tests",
     "skills/fraud-reflector/tests",
     "skills/orchestrator/tests",
+    "skills/analyst-ui/tests",
     "data/injectors/tests",
     "results/tests",
 ]
@@ -47,6 +48,7 @@ pythonpath = [
     "skills/fraud-replay",
     "skills/fraud-reflector",
     "skills/orchestrator",
+    "skills/analyst-ui",
     "results",
 ]
 

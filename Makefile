@@ -1,7 +1,7 @@
-.PHONY: install test lint replay reflect reflect-fixture stream fixture results clean
+.PHONY: install test lint replay reflect reflect-fixture stream fixture results ui clean
 
 PYTHON ?= python3
-PYTHONPATH := .:skills/common:skills/fraud-ml:skills/fraud-rules:skills/fraud-replay:skills/fraud-reflector:skills/orchestrator:results
+PYTHONPATH := .:skills/common:skills/fraud-ml:skills/fraud-rules:skills/fraud-replay:skills/fraud-reflector:skills/orchestrator:skills/analyst-ui:results
 export PYTHONPATH
 
 install:
@@ -27,6 +27,9 @@ reflect: reflect-fixture
 
 results:
 	$(PYTHON) -m simulate
+
+ui:
+	$(PYTHON) -m streamlit run skills/analyst-ui/app.py
 
 stream:
 	$(PYTHON) -m orchestrator

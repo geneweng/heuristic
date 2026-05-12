@@ -26,7 +26,7 @@ from schemas import Transaction, build_context
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_REPLAY_PATH = REPO_ROOT / "data" / "replay" / "fixture.jsonl"
 DEFAULT_FLOORS_PATH = Path(__file__).parent / "floors.yaml"
-DEFAULT_REPORT_DIR = REPO_ROOT / "results"
+DEFAULT_REPORT_DIR = REPO_ROOT / "results" / "output"
 
 
 def _load_records(path: Path) -> list[dict]:
