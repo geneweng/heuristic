@@ -52,6 +52,8 @@ doubles.
 ```bash
 make install               # editable install, pulls dev deps
 make test                  # 147 tests
+make data                  # generate synthetic train/replay/holdout/stream splits
+make ml-train              # train the baseline GBM (overwrites skills/fraud-ml/model.joblib)
 make stream                # orchestrator: score the fixture, write runs/
 make replay                # run all rules against the labeled fixture
 make reflect               # offline reflector loop, materializes to proposals/
@@ -67,14 +69,16 @@ ANTHROPIC_API_KEY=sk-... python -m reflector --live --open-pr
 
 ## Status against the 14-issue epic ([#1](../../issues/1))
 
-- ✅ Closed: #4 schemas, #5 skill scaffolds, #6 seed rules, #7 replay harness,
-  #8 analyst UI, #9 orchestrator, #10 reflector loop, #11 prompt design,
-  #12 PR approval gate, #13 scheme injectors, #14 simulation/results,
-  #15 overfitting guards
-- 🟡 Open: #2 IEEE-CIS data ingest (Kaggle creds), #3 real XGBoost baseline
+- ✅ Closed: #2 data splits, #3 ML baseline, #4 schemas, #5 skill scaffolds,
+  #6 seed rules, #7 replay harness, #8 analyst UI, #9 orchestrator,
+  #10 reflector loop, #11 prompt design, #12 PR approval gate,
+  #13 scheme injectors, #14 simulation/results, #15 overfitting guards
+- 🟡 All 14 epic children closed.
 
-The HL plumbing is feature-complete on synthetic data. #2 + #3 swap the
-seed fixture for real data — no architecture changes.
+The synthetic data generator (`data/build_splits.py`) emits IEEE-CIS-shape
+splits — entity-level disjoint, deterministic from `RANDOM_SEED=42`. Replace
+the generator with a real-IEEE-CIS loader (Kaggle download) and the rest of
+the system runs unchanged.
 
 ## Headline simulation result
 

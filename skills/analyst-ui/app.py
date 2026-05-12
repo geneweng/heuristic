@@ -15,7 +15,7 @@ from pr_review import (
     list_open_reflector_prs,
     reject_reflector_pr,
 )
-from queue import build_queue
+from labeling_queue import build_queue
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 RUNS_DIR = Path(os.environ.get("ANALYST_RUNS_DIR", REPO_ROOT / "runs"))

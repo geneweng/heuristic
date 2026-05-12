@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 
 from labels_io import append_label
-from queue import build_queue
+from labeling_queue import build_queue
 
 
 def _run(txn_id: str, decision: str, ts: str = "2026-05-11T12:00:00") -> dict:

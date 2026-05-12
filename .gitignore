@@ -20,3 +20,4 @@ results/output/
 *.parquet
 *.pkl
 *.joblib
+!skills/fraud-ml/model.joblib

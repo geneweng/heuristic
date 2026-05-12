@@ -1,4 +1,4 @@
-.PHONY: install test lint replay reflect reflect-fixture stream fixture results ui clean
+.PHONY: install test lint replay reflect reflect-fixture stream fixture results ui data ml-train clean
 
 PYTHON ?= python3
 PYTHONPATH := .:skills/common:skills/fraud-ml:skills/fraud-rules:skills/fraud-replay:skills/fraud-reflector:skills/orchestrator:skills/analyst-ui:results
@@ -6,6 +6,12 @@ export PYTHONPATH
 
 install:
 	$(PYTHON) -m pip install -e ".[dev]"
+
+data:
+	$(PYTHON) data/build_splits.py
+
+ml-train:
+	$(PYTHON) skills/fraud-ml/train.py
 
 test:
 	pytest -q
