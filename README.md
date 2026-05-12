@@ -11,6 +11,12 @@ The thesis: when a novel fraud scheme is injected, the system detects it
 plain-English rule, and ships it without regressing on prior schemes — the
 HL paper's "continual learning without catastrophic forgetting" claim.
 
+**👉 Read [`Demo-Scenario.md`](./Demo-Scenario.md)** for a day-by-day
+walkthrough of one realistic incident (the BIN-654321 attack) end-to-end:
+ML misses, analyst labels, reflector proposes a rule, CODEOWNERS gates the
+merge, ships within a business day. Every artifact is reproducible from
+`make` targets.
+
 ## The loop
 
 ```
@@ -136,6 +142,7 @@ when ready.
 
 ## Pointers
 
+- Demo walkthrough: [`Demo-Scenario.md`](./Demo-Scenario.md)
 - The HL paper: https://trinkle23897.github.io/learning-beyond-gradients/
 - Tracking epic: [#1](../../issues/1)
 - POC plan in epic body (architecture + success metrics + run protocol)
