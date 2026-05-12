@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Heuristic Learning — Fraud Detection POC
+permalink: /
 ---
 
 # Heuristic Learning — Fraud Detection POC

@@ -43,9 +43,4 @@ kramdown:
     block:
       line_numbers: false
 
-# Make the README the index page
-defaults:
-  - scope:
-      path: "README.md"
-    values:
-      permalink: /
+# README's frontmatter sets permalink: / directly.
