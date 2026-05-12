@@ -1,3 +1,8 @@
+---
+layout: default
+title: Demo Scenario — The BIN-654321 attack
+---
+
 # Demo Scenario — "The BIN-654321 attack"
 
 A walkthrough of what this POC does in practice, framed as one realistic
@@ -8,16 +13,16 @@ every artifact below can be reproduced end-to-end with `make`.
 
 A mid-tier card issuer is running the system in production:
 
-- **Frozen GBM** ([`skills/fraud-ml`](./skills/fraud-ml/))
+- **Frozen GBM** ([`skills/fraud-ml`](https://github.com/geneweng/heuristic/tree/main/skills/fraud-ml))
   trained on 60 days of history. AUC 0.998 on a held-out slice. Strong but
   brittle to schemes it didn't see in training.
-- **Five human-authored rules** ([`skills/fraud-rules/rules`](./skills/fraud-rules/rules/))
+- **Five human-authored rules** ([`skills/fraud-rules/rules`](https://github.com/geneweng/heuristic/tree/main/skills/fraud-rules/rules))
   for known patterns: card-testing bursts, impossible geo-velocity,
   decline-retry, new-device-aged-card, device-shared-across-cards.
-- **Replay floors** ([`skills/fraud-replay/floors.yaml`](./skills/fraud-replay/floors.yaml))
+- **Replay floors** ([`skills/fraud-replay/floors.yaml`](https://github.com/geneweng/heuristic/blob/main/skills/fraud-replay/floors.yaml))
   gate every rule change: drop recall on any prior scheme below its floor and
   CI fails. This is the anti-forgetting guard.
-- **A reflector skill** ([`skills/fraud-reflector`](./skills/fraud-reflector/))
+- **A reflector skill** ([`skills/fraud-reflector`](https://github.com/geneweng/heuristic/tree/main/skills/fraud-reflector))
   sleeping; runs nightly.
 
 Volume: tens of thousands of auths a day. Detection rate is steady. Nobody
@@ -36,7 +41,7 @@ the cards aren't aged, and there's no device-ring topology. **Seven of
 these auths approve. None are flagged.**
 
 The injector that produces this scheme lives at
-[`data/injectors/new_bin_attack.py`](./data/injectors/new_bin_attack.py). The
+[`data/injectors/new_bin_attack.py`](https://github.com/geneweng/heuristic/blob/main/data/injectors/new_bin_attack.py). The
 relevant generated row in the run log looks like:
 
 ```jsonc
@@ -73,19 +78,19 @@ The UI appends to `labels/labels.jsonl`. The reflector reads this file.
 2. **Cluster by feature bucket** — `(country=AT, merchant_category=online-cash-out,
    card_age=new, device=newdev, amount=mid)`. All seven land in one cluster.
 3. **Skip-rejection check** — no prior rejection for this cluster fingerprint
-   ([`rejections.should_skip_cluster`](./skills/fraud-reflector/rejections.py)).
+   ([`rejections.should_skip_cluster`](https://github.com/geneweng/heuristic/blob/main/skills/fraud-reflector/rejections.py)).
 4. **Validate the cluster** — ≥5 FNs, distinct cards, distinct merchants ✓
-   ([`clusters.validate_cluster`](./skills/fraud-reflector/clusters.py)).
-5. **Prompt Claude** with [`propose_rule.md`](./skills/fraud-reflector/prompts/propose_rule.md) +
+   ([`clusters.validate_cluster`](https://github.com/geneweng/heuristic/blob/main/skills/fraud-reflector/clusters.py)).
+5. **Prompt Claude** with [`propose_rule.md`](https://github.com/geneweng/heuristic/blob/main/skills/fraud-reflector/prompts/propose_rule.md) +
    the cluster JSON + the schemas + the existing rule list. Tool-use only,
    no free-text parsing.
-6. **Run the four guards** ([`guards.py`](./skills/fraud-reflector/guards.py)):
+6. **Run the four guards** ([`guards.py`](https://github.com/geneweng/heuristic/blob/main/skills/fraud-reflector/guards.py)):
    no identity-feature literals, holdout precision ≥ 0.85, FP rate on legit
    ≤ 0.1%, no existing rule already covers > 70% of the cited FNs.
 7. **Materialize** the rule as `skills/fraud-rules/rules/bin_654321_at_cashout_v1.py`
    plus its test file.
 8. **Run replay** — all five prior schemes still at their floor. No regression.
-9. **Open a PR** with the [reflector template](./.github/PULL_REQUEST_TEMPLATE/reflector.md).
+9. **Open a PR** with the [reflector template](https://github.com/geneweng/heuristic/blob/main/.github/PULL_REQUEST_TEMPLATE/reflector.md).
 10. **Log the attempt** to `memory/attempts.jsonl`.
 
 The rule file Claude produced — auditable Python an analyst can read:
@@ -127,7 +132,7 @@ without an API call — useful for CI.)
 ## Day 4 PR review
 
 The PR body (rendered from
-[`.github/PULL_REQUEST_TEMPLATE/reflector.md`](./.github/PULL_REQUEST_TEMPLATE/reflector.md))
+[`.github/PULL_REQUEST_TEMPLATE/reflector.md`](https://github.com/geneweng/heuristic/blob/main/.github/PULL_REQUEST_TEMPLATE/reflector.md))
 lists:
 
 - The scheme description Claude wrote
@@ -137,7 +142,7 @@ lists:
 
 Two things matter here:
 
-- **CODEOWNERS gates the merge.** Per [`.github/CODEOWNERS`](./.github/CODEOWNERS),
+- **CODEOWNERS gates the merge.** Per [`.github/CODEOWNERS`](https://github.com/geneweng/heuristic/blob/main/.github/CODEOWNERS),
   any change under `skills/fraud-rules/rules/**` requires a human reviewer.
   Reflector PRs cannot self-merge.
 - **Rejecting writes to memory.** If the analyst clicks Reject in the UI, the

@@ -1,3 +1,8 @@
+---
+layout: default
+title: Heuristic Learning — Fraud Detection POC
+---
+
 # Heuristic Learning — Fraud Detection POC
 
 A working proof-of-concept for **Heuristic Learning** ([Trinkle, *Learning

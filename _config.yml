@@ -1,0 +1,51 @@
+# GitHub Pages / Jekyll config.
+# Site: https://geneweng.github.io/heuristic/
+# Published pages: README (root), Demo-Scenario, Continual-Learning-Without-Retraining.
+
+title: "Heuristic Learning Fraud POC"
+description: "Continual learning for fraud detection — when the update mechanism is a coding agent."
+url: "https://geneweng.github.io"
+baseurl: "/heuristic"
+
+theme: jekyll-theme-cayman
+
+# Only the three article files are processed. Everything else is excluded so
+# the SKILL.md files, code, and generated outputs don't leak onto the site.
+exclude:
+  - .venv/
+  - .pytest_cache/
+  - .ruff_cache/
+  - .github/
+  - skills/
+  - data/
+  - results/
+  - runs/
+  - labels/
+  - memory/
+  - proposals/
+  - "*.py"
+  - "*.toml"
+  - "*.cfg"
+  - Makefile
+  - "*.joblib"
+  - "*.parquet"
+  - "*.jsonl"
+  - vendor/
+  - node_modules/
+  - Gemfile
+  - Gemfile.lock
+
+# Markdown rendering
+markdown: kramdown
+kramdown:
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    block:
+      line_numbers: false
+
+# Make the README the index page
+defaults:
+  - scope:
+      path: "README.md"
+    values:
+      permalink: /

@@ -1,3 +1,8 @@
+---
+layout: default
+title: Continual Learning Without Retraining
+---
+
 # Continual Learning Without Retraining
 
 *Applying Heuristic Learning to fraud detection — an applied report on what

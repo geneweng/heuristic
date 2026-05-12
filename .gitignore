@@ -16,7 +16,8 @@ labels/*.jsonl
 proposals/
 memory/attempts.jsonl
 memory/rejections.jsonl
-results/output/
+results/output/*
+!results/output/headline.png
 *.parquet
 *.pkl
 *.joblib
