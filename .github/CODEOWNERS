@@ -1,0 +1,5 @@
+# Per #12 AC: nothing the reflector produces merges without a human reviewer.
+# Any change under skills/fraud-rules/rules/** requires sign-off from the
+# repository owner.
+
+skills/fraud-rules/rules/**   @geneweng

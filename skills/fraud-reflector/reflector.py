@@ -47,7 +47,13 @@ from guards import (
     validate_proposal,
 )
 from materialize import materialize_rule
+from pr_template import render_body as render_pr_body
 from registry import _discover
+from rejections import (
+    DEFAULT_REJECTIONS_LOG,
+    load_rejections,
+    should_skip_cluster,
+)
 from schemas import EntityContext, Transaction
 from tool_schema import REFLECTOR_TOOLS
 
@@ -262,18 +268,31 @@ def _record_to_ctx(rec: dict) -> EntityContext:
     return EntityContext(**fields)
 
 
-def _default_open_pr(scheme_id: str, rule_path: Path, test_path: Path, proposal: dict) -> str:
+def _default_open_pr(
+    scheme_id: str,
+    rule_path: Path,
+    test_path: Path,
+    proposal: dict,
+    *,
+    cluster_id: str,
+    fn_count: int,
+    created_at: str,
+) -> str:
     branch = f"reflector/{scheme_id}"
     subprocess.run(["git", "checkout", "-b", branch], check=True)
     subprocess.run(["git", "add", str(rule_path), str(test_path)], check=True)
     msg = f"reflector: propose {scheme_id}\n\n{proposal['description']}"
     subprocess.run(["git", "-c", "commit.gpgsign=false", "commit", "-m", msg], check=True)
     subprocess.run(["git", "push", "-u", "origin", branch], check=True)
-    body = (
-        f"## Scheme\n\n`{scheme_id}` — confidence {proposal['confidence']}\n\n"
-        f"## Description\n\n{proposal['description']}\n\n"
-        f"## Rationale\n\n{proposal['rationale']}\n\n"
-        f"## Cited evidence\n\n{', '.join(proposal['cited_txn_ids'])}\n"
+    body = render_pr_body(
+        scheme_id=scheme_id,
+        confidence=proposal["confidence"],
+        description=proposal["description"],
+        rationale=proposal["rationale"],
+        cluster_id=cluster_id,
+        fn_count=fn_count,
+        cited_txn_ids=proposal["cited_txn_ids"],
+        created_at=created_at,
     )
     result = subprocess.run(
         ["gh", "pr", "create", "--title", f"reflector: {scheme_id}", "--body", body],
@@ -299,6 +318,7 @@ def reflect(
     replay_fn: Callable[[], bool] = lambda: True,
     pr_fn: Callable | None = None,
     attempts_log: Path | None = None,
+    rejections_log: Path | None = None,
     today: date | None = None,
     min_cluster_size: int = 5,
 ) -> ReflectorReport:
@@ -309,6 +329,9 @@ def reflect(
     pr_fn = pr_fn or _default_open_pr
     holdout = holdout or []
     legit = legit or []
+    rejections_log = rejections_log or DEFAULT_REJECTIONS_LOG
+    rejections = load_rejections(rejections_log)
+    now_utc = datetime.combine(today or date.today(), datetime.min.time(), tzinfo=timezone.utc)
 
     fns = find_false_negatives(runs_dir, labels_path)
     clusters = cluster_fns(fns, min_size=min_cluster_size)
@@ -322,6 +345,14 @@ def reflect(
         cluster_issues = validate_cluster(cluster)
         if cluster_issues:
             outcome.update(action="rejected_by_validator", issues=cluster_issues)
+            results.append(outcome)
+            continue
+
+        skip, skip_reason = should_skip_cluster(
+            cluster.cluster_id, len(cluster.fn_records), rejections, now=now_utc
+        )
+        if skip:
+            outcome.update(action="skipped_due_to_prior_rejection", reason=skip_reason)
             results.append(outcome)
             continue
 
@@ -370,7 +401,15 @@ def reflect(
         )
 
         if open_pr:
-            pr_url = pr_fn(proposal["scheme_id"], rule_path, test_path, proposal)
+            pr_url = pr_fn(
+                proposal["scheme_id"],
+                rule_path,
+                test_path,
+                proposal,
+                cluster_id=cluster.cluster_id,
+                fn_count=len(cluster.fn_records),
+                created_at=(today or date.today()).isoformat(),
+            )
             outcome["pr"] = pr_url
             outcome["action"] = "pr_opened"
 

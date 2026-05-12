@@ -9,7 +9,12 @@ from pathlib import Path
 import streamlit as st
 
 from labels_io import append_label
-from pr_review import approve_pr, get_pr_diff, list_open_reflector_prs, reject_pr
+from pr_review import (
+    approve_pr,
+    get_pr_diff,
+    list_open_reflector_prs,
+    reject_reflector_pr,
+)
 from queue import build_queue
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -112,8 +117,14 @@ def _render_pr_review() -> None:
                     st.warning("Please provide a rejection reason — the reflector reads it.")
                 else:
                     try:
-                        reject_pr(pr.number, reason)
-                        st.success(f"Closed PR #{pr.number}")
+                        rec = reject_reflector_pr(pr, reason)
+                        if rec:
+                            st.success(
+                                f"Closed PR #{pr.number}; reflector won't re-propose "
+                                f"`{rec['cluster_id']}` for 14d unless evidence doubles"
+                            )
+                        else:
+                            st.success(f"Closed PR #{pr.number} (no metadata to record)")
                         st.rerun()
                     except Exception as e:
                         st.error(f"close failed: {e}")
