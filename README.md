@@ -143,6 +143,7 @@ when ready.
 ## Pointers
 
 - Demo walkthrough: [`Demo-Scenario.md`](./Demo-Scenario.md)
+- Applied write-up: [`Continual-Learning-Without-Retraining.md`](./Continual-Learning-Without-Retraining.md)
 - The HL paper: https://trinkle23897.github.io/learning-beyond-gradients/
 - Tracking epic: [#1](../../issues/1)
 - POC plan in epic body (architecture + success metrics + run protocol)
